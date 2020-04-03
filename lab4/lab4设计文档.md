@@ -8,5 +8,5 @@
 
 *3、轮播图使用三张不同图片，图片中下方有加粗斜体的字体进行描述。
 
-![截图](lab4\images\截图.PNG)
+![截图](https://github.com/fate1930/SOFT130002_lab/blob/master/lab4/images/截图.PNG)
 
