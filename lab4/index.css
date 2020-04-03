@@ -1,0 +1,26 @@
+.navbar-brand{
+    padding: 6px 6px;
+}
+
+span{
+    margin-left: 5px;
+}
+
+li{
+    text-align: center;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0px;
+    display: block;
+    width: 100%;
+    font-size: small;
+}
+
+.item{
+    color: cyan;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: bolder;
+}
