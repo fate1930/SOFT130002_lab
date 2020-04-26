@@ -10,7 +10,17 @@ let url_submit = document.getElementById("url_submit");
 let url_result = document.getElementById("url-result");
 url_submit.addEventListener('click',showWindowHref);
 function showWindowHref(){
-
+    var urlString = url.value;
+    var urlSearch = urlString.split('?');
+    var aimString = urlSearch[1].split('&');
+    for (var i = aimString.length - 1; i >= 0; i--) {
+        var finalString = aimString[i].split("=");
+        if(finalString[0] == "name"){
+            url_result.value = finalString[1];
+            break;
+        }
+        else{ url_result.value = "NoValue";}
+    }
 }
 //2. 每隔五秒运行一次函数直到某一整分钟停止，比如从20:55:45运行到20:56:00停止；或者运行10次，先到的为准。从1开始每过五秒，输入框内数值翻倍。初始值为1。
 //注意：你可以在函数 timeTest内部 和 timeTest外部 写代码使得该功能实现。
@@ -18,7 +28,24 @@ function showWindowHref(){
 
 //提示：mul为html中id为"mul"的元素对象，可直接通过mul.value获得其内的输入值。
 let mul = document.getElementById("mul");
+mul.addEventListener('mouseover',timeTest)
+var i = 0;
 function timeTest(){
+    if (i === 0) {
+        i++;
+        mul.value = 1;
+        var num = 0;
+        var control = window.setInterval(
+            function () {
+                mul.value *= 2;
+                if (new Date().getSeconds() === 0 || num === 9) {
+                    window.clearInterval(control)
+                    i--;
+                }
+                num++;
+            }, 5000
+        );
+    }
 }
 //3. 判断输入框most里出现最多的字符，并统计出来。统计出是信息在most_result输入框内以"The most character is:" + index + " times:" + max的形式显示。
 //如果多个出现数量一样则选择一个即可。
@@ -30,5 +57,22 @@ let result = document.getElementById("most-result");
 let most_submit = document.getElementById("most_submit");
 most_submit.addEventListener('click',arrSameStr);
 function arrSameStr(){
-
+    var str = most.value;
+    var array = {};
+    var max = 0;
+    var index = '';
+    for (var i = 0; i < str.length; i++) {
+        if(!array[str.charAt(i)]){
+            array[str.charAt(i)] = 1;
+        }else{
+            array[str.charAt(i)]++;
+        }
+    };
+    for(var m in array){
+        if(array[m]>max){
+            max = array[m];
+            index = m;
+        }
+    }
+    result.value= "The most character is:" + index + " times:" + max;
 }
