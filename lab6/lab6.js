@@ -11,10 +11,29 @@
 */
 
 function testTime(){
-
+    var i = 0;
+    var value = 1;
+    var num = 0;
+    if (i === 0) {
+        i++;
+        var control = setInterval(
+            function () {
+                console.log(value);
+                value *= 2;
+                if (new Date().getSeconds() === 0 || num === 9) {
+                    console.log(value);
+                    console.log("End");
+                    clearInterval(control)
+                    i--;
+                }
+                num++;
+            }, 5000
+        );
+    }
 }
-// testTime();
-
+function test1(){
+    testTime();
+}
 /*
 2.
 要求：
@@ -24,9 +43,25 @@ function testTime(){
     ④telephone与mail均是字符串。
 */
 function testMail(telephone,mail) {
-
+    var i = false;
+    var j = false;
+    var telephoneType = /^[1][3,4,5,7,8][0-9]{9}$/;
+    var mailType =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(telephoneType.test(telephone)){
+        i = true;
+    }else{
+        i = false;
+    }
+    if(mailType.test(mail)){
+       j = true;
+    }else{
+       j = false;
+    }
+    console.log("The telephone is " + i + " and the mail is " + j + "!")
 }
-
+function test2(){
+    testMail("17900734502","971497103@qq..com")
+}
 /*
 3.
 要求：
@@ -37,10 +72,30 @@ function testMail(telephone,mail) {
     ⑤str为字符串。
 */
 function testRedundancy(str) {
-
+    var s = new Set();
+    var arr = new Array();
+    var sameType = /\b([a-z]+)\b/ig;
+    var k = 0;
+    for (var i = 0; i < str.match(sameType).length; i++) {
+        if (str.toLowerCase().match(sameType)[i] == str.toLowerCase().match(sameType)[i + 1]) {
+            arr[k] = str.match(sameType)[i] + " " + str.match(sameType)[i + 1];
+            k++;
+        }
+        arr.sort(function(a, b) {
+            return a.localeCompare(b);
+        })
+    }
+    if (arr.length > 10){
+        arr.splice(10,arr.length-10);
+    }
+    for (c = 0; c < arr.length; c++){
+        s.add(arr[c]);
+    }
+    console.log(s);
 }
-
-
+function test3(){
+    testRedundancy("Is is is me me uo uo po po kl kl il il ji ji the iS is cost of of gasoline going up up");
+}
 /*
 4.
 背景：
@@ -56,9 +111,35 @@ function testRedundancy(str) {
     ①注意联系生活，并注意观察我给的上述例子。
 */
 function testKeyBoard(wantInput, actualInput) {
-
+    var array = [];
+    for (var i = 0, j = 0;i < wantInput.length;){
+        if(wantInput.charAt(i) === actualInput.charAt(j)){
+            if (j < actualInput.length-1){
+                i++;
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+        else{
+            if(/[a-zA-Z]/.test(wantInput.charAt(i))){
+                array[array.length] = wantInput.charAt(i).toUpperCase();
+                i++;
+            }
+            else{
+                array[array.length] = wantInput.charAt(i);
+                i++;
+            }
+        }
+    }
+    var array1 = Array.from(new Set(array));
+    var array2 =new Set(array1);
+    console.log(array2);
 }
-
+function test4(){
+    testKeyBoard("7_This_is_a_test","_hs_s_a_es");
+}
 /*
 5.
 背景：
@@ -72,8 +153,15 @@ function testKeyBoard(wantInput, actualInput) {
     ⑤str为字符串。
 */
 function testSpecialReverse(str) {
+    var arr1 = new Array();
+    arr1 = str.trim().split(/\s+/);
+    var arr2 = arr1.reverse();
+    var arr3 = arr2.join(" ");
+    console.log(arr3);
 }
-
+function test5(){
+    testSpecialReverse("  hello  world!  ");
+}
 /*
 6.
 背景：
@@ -89,10 +177,27 @@ function testSpecialReverse(str) {
     [ 1, 2 ]
 */
 
-function twoSum(nums, target) {
+function twoSum(nums,target) {
+    var map = new Map();
+    var i = 0;
+    nums.map(num => {
+        map.set(num, i);
+        i++;
+    });
+    for (i = 0; i < nums.length; i++) {
+        if (map.get(target-nums[i])) {
+            var arr5 = [];
+            arr5.push(i);
+            arr5.push(map.get(target-nums[i]));
+            if(arr5[0]<arr5[1]) {
+                console.log(arr5);
+            }
+        }
+    }
 }
-
-
+function test6(){
+    twoSum([1,2,3,4],5);
+}
 /*
 7.
 背景：
@@ -105,8 +210,31 @@ function twoSum(nums, target) {
     ⑤str为字符串。
 */
 function lengthOfLongestSubstring(str) {
+    var max = str[0];
+    var str1 = max;
+    const maxl = (a, b) => {
+        let r = a;
+        if (a.length < b.length) {
+            r = b;
+            return r;
+        }
+        return r;
+    };
+    for (let i = 1; i <= str.length; i += 1) {
+        if (str1.indexOf(str[i]) === -1) {
+            str1 += str.substring(i, i + 1);
+            max = maxl(max,str1);
+        } else {
+            str1 = str1.substring((str1.indexOf(str[i]) + 1));
+            str1 += str[i];
+            max = maxl(max, str1);
+        }
+    }
+    console.log(max.length);
 }
-
+function test7(){
+    lengthOfLongestSubstring("aaabbvccciow");
+}
 /*
 8.
 背景：
@@ -119,3 +247,50 @@ function lengthOfLongestSubstring(str) {
 function Country() {
     this.name = "国家";
 }
+
+function DevelopingCountry(){
+    Country.call(this);
+    this.name = "developing country";
+}
+DevelopingCountry.prototype.sayHi = function () {
+    console.log("Hi,I am a " + this.name + ".")
+}
+
+function PoorCountry(){
+    this.name = "poor country";
+}
+PoorCountry.prototype = new Country();
+PoorCountry.prototype.saySad = function(){
+    console.log("I am a sad " + this.name + ".");
+}
+
+function DevelopedCountry(){
+    Country.call(this);
+    this.name = "developed country";
+}
+DevelopedCountry.prototype = Object.create(Country.prototype);
+DevelopedCountry.prototype.sayHappy = function () {
+    console.log("I am a Happy " + this.name + ".")
+}
+
+function test8(){
+    var country1 = new DevelopingCountry();
+    var country2 = new PoorCountry();
+    var country3 = new DevelopedCountry();
+    country1.sayHi();
+    country2.saySad();
+    country3.sayHappy();
+}
+
+function test(){
+    test1();
+    test2();
+    test3();
+    test4();
+    test5();
+    test6();
+    test7();
+    test8();
+}
+
+test();
